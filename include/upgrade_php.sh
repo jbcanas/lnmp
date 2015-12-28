@@ -40,7 +40,7 @@ if [ -e "php-$NEW_PHP_version.tar.gz" ];then
     patch -d php-$NEW_PHP_version -p0 < fpm-race-condition.patch
     cd php-$NEW_PHP_version
     make clean
-    $php_install_dir/bin/php -i |grep 'Configure Command' | awk -F'=>' '{print $2}' | bash
+    $php_install_dir/bin/php -i |grep 'Configure Command' | awk -F'=>' '{print $2}' | awk '{gsub(/disable-fileinfo/,"enable-fileinfo");}1' | bash
     make ZEND_EXTRA_LIBS='-liconv'
     echo "Stoping php-fpm..."
     service php-fpm stop
